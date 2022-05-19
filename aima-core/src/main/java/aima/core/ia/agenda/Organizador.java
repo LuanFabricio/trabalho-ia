@@ -5,15 +5,13 @@ import java.util.Random;
 
 public class Organizador {
 	private Agenda agenda;
-	private int horasTrabalhadas;
 	private int maxIndividuos;
 	private int tentativas;
 	private int MIN = Integer.MIN_VALUE;
 	private int DIAS;
 	private int HORARIOS;
-	Organizador(Agenda agenda, int dias, int horarios, int horasTrabalhadas, int maxIndividuos, int tentativas){
+	Organizador(Agenda agenda, int dias, int horarios, int maxIndividuos, int tentativas){
 		this.agenda = agenda;
-		this.horasTrabalhadas = horasTrabalhadas;
 		this.tentativas = tentativas;
 		this.DIAS = dias;
 		this.HORARIOS = horarios;
@@ -100,9 +98,11 @@ public class Organizador {
 			}
 			score += -fim * 100;
 		}
-		for (int[] horasDoFuncionario : horasTrabalhadas) {
+		for (int funcionarioIndex = 0 ; funcionarioIndex < funcionarios.size() ; funcionarioIndex++) {
+			int[] horasDoFuncionario = horasTrabalhadas[funcionarioIndex];
+			Funcionario f = funcionarios.get(funcionarioIndex);
 			for (int horas: horasDoFuncionario) {
-				if (horas == this.horasTrabalhadas) {
+				if (horas == f.getHorasDeTrabalho()) {
 					score += 1500;
 				}
 				else {
@@ -168,7 +168,7 @@ public class Organizador {
 					 Funcionario funcionario = funcionarios.get(index);
 					 boolean[][] funcionarioHorarios = funcionario.getHorariosDisponiveis();
 					 if (!funcionarioHorarios[dia][horario] 
-							 || horasTrabalhadas[index][dia] == this.horasTrabalhadas) {
+							 || horasTrabalhadas[index][dia] == funcionario.getHorasDeTrabalho()) {
 						 horarios[dia][horario] = null;
 					 }
 					 else {

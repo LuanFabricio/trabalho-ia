@@ -3,9 +3,11 @@ package aima.core.ia.agenda;
 public class Funcionario {
 	public boolean[][] horariosDisponiveis;
 	private String nome;
-	Funcionario(String nome, boolean[][] horariosDisponiveis){
+	private int horasDeTrabalho;
+	Funcionario(String nome, boolean[][] horariosDisponiveis, int horasDeTrabalho){
 		this.nome = nome;
 		this.horariosDisponiveis = horariosDisponiveis;
+		this.horasDeTrabalho = horasDeTrabalho;
 	}
 	
 	public boolean[][] getHorariosDisponiveis() {
@@ -14,6 +16,10 @@ public class Funcionario {
 	
 	public String getNome() {
 		return this.nome;
+	}
+	
+	public int getHorasDeTrabalho() {
+		return this.horasDeTrabalho;
 	}
 	
 	public boolean livre(int dia, int horario) {
