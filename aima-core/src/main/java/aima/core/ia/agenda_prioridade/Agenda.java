@@ -6,12 +6,15 @@ import java.util.Random;
 public class Agenda {
 	private List<Funcionario> funcionarios;
 	private String[][] horarios;
-	public int DIAS = 5;
-	public int HORARIOS = 8;
+	public int fitness;
+	public int DIAS;
+	public int HORARIOS;
 	
-	Agenda(List<Funcionario> funcionarios){
+	Agenda(List<Funcionario> funcionarios, int dias, int horarios){
 		this.funcionarios = funcionarios;
-		horarios = new String[DIAS][HORARIOS];
+		this.DIAS = dias;
+		this.HORARIOS = horarios;
+		this.horarios= new String[DIAS][HORARIOS];
 		this.horarios = this.createParents();
 	} 
 	
@@ -27,7 +30,7 @@ public class Agenda {
 			for (int i = 0 ; i < horariosDisponiveis.length ; i++) {
 				for (int j = 0 ; j < horariosDisponiveis[i].length ; j++) {
 					if (horariosDisponiveis[i][j]) {
-						System.out.printf("dia: %d [%d]", i+1, j);
+						System.out.printf("dia: %d [%d] ", i+1, j);
 					}
 				}
 			}
@@ -39,20 +42,17 @@ public class Agenda {
 		for (int i = 0 ; i < this.horarios.length ; i++) {
 			System.out.printf("Dia %d\n", i+1);
 			String[] dia = this.horarios[i];
-			for (String nomeFuncionario : dia) {
-				System.out.println("\t"+nomeFuncionario);
+			for (int j = 0 ; j < HORARIOS ; j++) {
+				String nomeFuncionario = this.horarios[i][j];
+				System.out.println("\t"+(j+1)+" "+nomeFuncionario);
 			}
 		}
 	}
 	
 	private String[][] createParents(){
-		return this.createParents(0, this.funcionarios.size());
-	}
-	
-	private String[][] createParents(int inicio, int fim){
 		String[][] horarios = new String[DIAS][HORARIOS];
 		Random rand = new Random();
-		for (int i = inicio ; i < fim ; i++) {
+		for (int i = 0; i < funcionarios.size(); i++) {
 			Funcionario funcionario = funcionarios.get(i);
 			int dia = rand.nextInt(DIAS);
 			int horario = rand.nextInt(HORARIOS);
@@ -78,25 +78,6 @@ public class Agenda {
 			}
 		}
 		return -1;
-	}
-	
-	private int calcScore(String[][] horarios) {
-		int score = 1000;
-		
-		for (int i = 0 ; i < horarios.length ; i++) {
-			int inicio = -1;
-			int fim = -1;
-			for(int j = 0 ; j < horarios[i].length ; j++) {
-				if (horarios[i][j] != null && !horarios[i][j].isEmpty()) {
-					if (inicio == -1) {
-						inicio = j;
-					}
-					fim = j;
-				}
-			}
-			score -= 1 + fim - inicio;
-		}
-		return score;
 	}
 	
 	public List<Funcionario> getFuncionarios(){
